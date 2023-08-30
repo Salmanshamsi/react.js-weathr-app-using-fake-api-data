@@ -7,7 +7,7 @@ import clear from "../../assets/imges/clear.gif";
 
 
 
-const CityCard = ({ city, navCityList }) => {
+const CityCard = ({city}) => {
 
   const [cityData, setCityData] = useState();
   const [loading, setloading] = useState("hidden");
@@ -19,19 +19,11 @@ const getInpCity = async (inpCity)=>{
 
         setloading("visible");
 
-        if(inpCity){
-
-          console.log("data--",inpCity);
-        
-            await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${inpCity}&appid=1a4bb6d2337db0f0a4b8bd76f05a61fa&units=metric`)
-            .then((resp) => {resp?setCityData(resp.data):alert("city not Found")}).catch((e)=>{
-                alert("city not found");
-            })
-            navCityList = "";
-            city = "";  
-        }else{
-            console.log("Error on data")
-        }
+        await axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${inpCity}&appid=1a4bb6d2337db0f0a4b8bd76f05a61fa&units=metric`).then((resp)=>{
+          setCityData(resp.data)
+        }).catch((err)=>{
+          console.log("resp Error : " , err)
+        })
 
         setloading("hidden");
 
@@ -41,9 +33,6 @@ const getInpCity = async (inpCity)=>{
 } 
 
   useEffect(() => {getInpCity(city)} , [city]);
-  useEffect(() => {getInpCity(navCityList)} , [navCityList]);
-
-
 
   return (
     
@@ -86,13 +75,13 @@ const getInpCity = async (inpCity)=>{
 
                     try{
                         if (cityData && cityData.weather && cityData.weather[0] && cityData.weather[0].main === "Rain") {
-                            return <i class="fa-solid fa-cloud-rain"></i>;
+                            return <i className="fa-solid fa-cloud-rain"></i>;
                           } else if (cityData && cityData.weather && cityData.weather[0] && cityData.weather[0].main === "Clouds") {
-                            return <i class="fa-solid fa-cloud"></i>;
+                            return <i className="fa-solid fa-cloud"></i>;
                           } else if (cityData && cityData.weather && cityData.weather[0] && (cityData.weather[0].main === "Clear" || cityData.weather[0].main === "sunny")) {
-                            return <i class="fa-solid fa-sun"></i>;
+                            return <i className="fa-solid fa-sun"></i>;
                           } else if (cityData && cityData.weather && cityData.weather[0] && (cityData.weather[0].main === "Smoke" || cityData.weather[0].main === "Haze")) {
-                            return <i class="fa-solid fa-smog"></i>;
+                            return <i className="fa-solid fa-smog"></i>;
                           }
                     }catch(e){throw new Error(e)}
                   
@@ -103,19 +92,19 @@ const getInpCity = async (inpCity)=>{
 
         <div  className='p-5 w-full  lg:w-6/12 flex justify-center items-center flex-wrap gap-4  '>
                     <div className='border lg:h-46 lg:w-40 h-24 w-24 shadow-lg rounded-md flex flex-col items-center justify-center gap-2 bg-slate-700 text-white'>
-                        <h1><i class="fa-solid fa-eye fa-2xl"></i></h1>
+                        <h1><i className="fa-solid fa-eye fa-2xl"></i></h1>
                         <h2 className='lg:text-2xl text-xl'><span className='mr-3'>Km</span>{cityData?.visibility}</h2>
                     </div>
                     <div className='border lg:h-46 lg:w-40 h-24 w-24 shadow-lg rounded-md flex flex-col items-center justify-center gap-2 bg-slate-700 text-white'>
-                        <h1><i class="fa-solid fa-wind fa-2xl"></i></h1>
+                        <h1><i className="fa-solid fa-wind fa-2xl"></i></h1>
                         <h2 className='lg:text-2xl text-xl'><span className='mr-3'>deg</span>{cityData?.wind.deg}</h2>
                     </div>
                     <div className='border lg:h-46 lg:w-40 h-24 w-24 shadow-lg rounded-md flex flex-col items-center justify-center gap-2 bg-slate-700 text-white'>
-                        <h1><i class="fa-solid fa-droplet fa-2xl"></i></h1>
+                        <h1><i className="fa-solid fa-droplet fa-2xl"></i></h1>
                         <h2 className='lg:text-2xl text-xl'>{cityData?.main.humidity}<span className='ml-3'>%</span></h2>
                     </div>
                     <div className='border lg:h-46 lg:w-40 h-24 w-24 shadow-lg rounded-md flex flex-col items-center justify-center gap-2 bg-slate-700 text-white'>
-                        <h1><i class="fa-solid fa-water fa-2xl"></i></h1>
+                        <h1><i className="fa-solid fa-water fa-2xl"></i></h1>
                         <h2 className='lg:text-2xl text-xl'><span className='mr-3'>Hpa</span>{cityData?.main.pressure}</h2>
                     </div>
             </div>
@@ -127,7 +116,7 @@ const getInpCity = async (inpCity)=>{
 
 
         <div className={`${loading} border h-screen w-screen z-50 absolute top-0 bg-black bg-opacity-50 flex justify-center items-center`}>
-            <h1 className='text-white' ><i class="fa-solid fa-spinner fa-spin fa-2xl"></i></h1>
+            <h1 className='text-white' ><i className="fa-solid fa-spinner fa-spin fa-2xl"></i></h1>
         </div>
     
     </>

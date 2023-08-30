@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 
 
-const SideBar = ({onData,onData2}) => {
+const SideBar = ({onData}) => {
+
+    const cityHandler = (city) => {
+        onData(city)
+    }
+
     const City = ["London","Tokyo","Miami","Florida","Rome","Jakarta"];
     const [Searchcity,setSearchCity] = useState("karachi")
 
@@ -11,7 +16,7 @@ const SideBar = ({onData,onData2}) => {
               <h1><i className="fa-solid fa-city fa-xl"></i></h1>
               <button onClick={(e)=>{
                 e.preventDefault();
-                onData2(CurEL)
+                cityHandler(CurEL)
               }} >{CurEL}</button>
             </div>
         )
@@ -25,7 +30,7 @@ const SideBar = ({onData,onData2}) => {
 
     const clickHandler = (e) => {
         e.preventDefault();
-        onData(Searchcity)
+        cityHandler(Searchcity);
     }
 
   return (
